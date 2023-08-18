@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+ 
+</head>
+<link rel="stylesheet" href="style.css">
+<body>
+    <center>
+        <h2>Join Us Today ? <br><br><i>Please log in or sign up!</i></h2><br>
+
+        <form id="formOfSignUp">
+            <div>
+                <input type="email" name="email" id="Email" placeholder="Email">
+                <br><br>
+                <input type="password" name="password" id="Password" placeholder="Password">
+                <br><br>
+                <button id="sign-up">SIGN UP</button> <br>
+                <p id="already">Already have an account?</p>
+                <b><i><a href="#" id="linkagetoLogin">LOGIN</a></i></b>  <br><br>
+            </div>
+        </form>
+
+        <form id="formOfLogIn">   
+            <div>
+                <input type="email" name="email" id="email" placeholder="Email">
+                <br><br>
+                <input type="password" name="password" id="password" placeholder="Password">
+                <br><br>
+                <button id="log-in">Log IN</button> 
+                <b><i><a href="#" id="linkagetoSignUp">Register Here</a></i></b>  <br><br>
+
+            </div>
+        </form>
+        <br> 
+    </center>
+
+    <!-- FOR DISPLAY -->
+
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-firestore.js"></script>
+
+
+    <script type="module">
+    
+
+// <!-- Firebase scripts -->
+const firebaseConfig = {
+    apiKey: "AIzaSyCyyMySnVe5aqKj7OGiQBN98xoJh-RpUas",
+    authDomain: "hackathon-d7c14.firebaseapp.com",
+    projectId: "hackathon-d7c14",
+    storageBucket: "hackathon-d7c14.appspot.com",
+    messagingSenderId: "374437049596",
+    appId: "1:374437049596:web:77bc0a68492c8a31129379"
+  };
+
+
+
+
+firebase.initializeApp(firebaseConfig);
+
+// Initialize Firebase Authentication
+const auth = firebase.auth();
+
+// Initialize Firestore
+const firestore = firebase.firestore();
+
+
+
+        let linkagetoSignUp = document.getElementById("linkagetoSignUp");
+        let formOfSignUp = document.getElementById("formOfSignUp");
+        let formOfLogIn = document.getElementById("formOfLogIn");
+        let linkagetoLogin = document.getElementById("linkagetoLogin");
+        
+        formOfLogIn.style.display = "none";
+        formOfSignUp.style.display = "block";
+        
+        linkagetoSignUp.addEventListener("click", () => {
+            if (formOfLogIn.style.display === "block") {
+                formOfLogIn.style.display = "none";
+                formOfSignUp.style.display = "block";
+            } 
+        });
+    
+        linkagetoLogin.addEventListener("click", () => {
+            if (formOfLogIn.style.display === "none") {
+                formOfLogIn.style.display = "block";
+                formOfSignUp.style.display = "none";
+            }
+        });
+
+
+        // Sign up event listener
+        const signUpButton = document.getElementById("sign-up");
+// signUpButton.addEventListener("click", () => {
+//   const email = document.getElementById("Email").value;
+//   const password = document.getElementById("Password").value;
+
+//   auth.createUserWithEmailAndPassword(email, password)
+//     .then(userCredential => {
+//       const user = userCredential.user;
+//       console.log("Signed up:", user);
+
+//       alert("SIGN UP SUCCESSFUL!");
+
+//       // Store user data in Firestore (replace 'users' with your collection name)
+//       firestore.collection("users").add({
+//         email: user.email
+//       });
+//     })
+//     .catch(error => {
+//       console.error("Sign up error:", error);
+//       alert("SIGN UP ERROR!");
+//     });
+// });
+
+
+// // Log in event listener
+// const loginButton = document.getElementById("log-in");
+// loginButton.addEventListener("click", () => {
+//   const email = document.getElementById("email").value;
+//   const password = document.getElementById("password").value;
+
+//   auth.signInWithEmailAndPassword(email, password)
+//     .then(userCredential => {
+//       const user = userCredential.user;
+//       console.log("Logged in:", user);
+//       alert("LOGGED iN !");
+
+//     })
+//     .catch(error => {
+//      console.log("Log in error:", error);
+//      alert("ERROR!");
+
+//     });
+// });
+
+
+
+
+
+
+
+
+
+
+
+const signUpForm = document.getElementById("formOfSignUp");
+    signUpForm.addEventListener("submit", (event) => {
+        event.preventDefault(); // Prevent form submission
+
+        const email = document.getElementById("Email").value;
+        const password = document.getElementById("Password").value;
+
+        auth.createUserWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                const user = userCredential.user;
+                console.log("Signed up:", user.email);
+
+                alert("SIGN UP SUCCESSFUL!");
+
+                // Store user data in Firestore (replace 'users' with your collection name)
+                firestore.collection("users").add({
+                    email: user.email
+                });
+            })
+            .catch(error => {
+                console.error("Sign up error:", error);
+                alert("SIGN UP ERROR!");
+            });
+    });
+
+    // Log in event listener
+    const loginForm = document.getElementById("formOfLogIn");
+    loginForm.addEventListener("submit", (event) => {
+        event.preventDefault(); // Prevent form submission
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        auth.signInWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                const user = userCredential.user;
+                console.log("Logged in:", user.email);
+                alert("LOGGED IN!");
+
+            })
+            .catch(error => {
+                console.log("Log in error:", error);
+                alert("LOG IN ERROR!");
+
+            });
+    });
+    
+
+    </script>
+    
+</body>
+</html>
